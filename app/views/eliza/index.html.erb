@@ -1,0 +1,43 @@
+<% content_for("page_scripts") do %>
+	// callback when sending 
+	function sendResponse()
+	{
+		Element.show('processing-indicator');
+		$('form-submit-button').disabled = true;
+	}
+
+	// callback on recieving
+	function processedResponse()
+	{
+		Element.hide('processing-indicator');
+		$('form-submit-button').disabled = false;	
+		
+		inputText = $('inputTextBox');
+		inputText.value = '';
+		inputText.focus();
+	}
+<% end %>
+  
+<div id="content">
+  <% form_remote_tag( :url => { :controller => :eliza, 
+                                :action => :index }, 
+                                :update => "theConversation",
+                                :position => :bottom,
+                                :loading => 'sendResponse()',
+                              	:complete => 'processedResponse()') do %>
+	<div class="pageTitle">Eliza</div>	
+	<div class="conversationContainer" id="theConversation">	
+		<%= @conversation %>
+	</div>
+	<div class="buttons">
+		<%= text_field_tag :newStatement, '' , :id => 'inputTextBox' %>
+		<%= submit_tag("Enter", :id => 'form-submit-button')  %> &nbsp;
+		<%= image_tag("indicator.gif",
+			 :id =>"processing-indicator", 
+			 :style =>"display:none;",
+			 :height => 16,
+			 :width => 16) %>
+	</div>
+	<% end %>
+	<div id="credits">Based on Peter Norvig's <a href="http://www.norvig.com/paip/README.html">LISP implementation</a></div>
+</div>

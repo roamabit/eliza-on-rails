@@ -1,0 +1,13 @@
+<html>
+<head>
+	<title>Eliza</title>
+	<%= javascript_include_tag "prototype" %>
+	<script type="text/javascript">
+	  <%= @content_for_page_scripts %>
+	</script>
+	<%= stylesheet_link_tag "eliza", :media =>"all" %>
+</head>
+<body>
+	<%= @content_for_layout %>
+</body>	
+</html>
